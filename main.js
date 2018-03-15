@@ -1,22 +1,22 @@
 var colors = ["red", "green", "blue", "yellow"];
 
 function SimonGame() {
-  this.sequence;
-  this.userClickCount = 0;
   var self = this;
 
   this.init = function() {
     this.sequence = [];
     this.userClickCount = 0;
     this.round = 1;
-    this.updateCounter();
+    this.updateRound();
     this.generateSequence(3);
     this.showSequence();
     $(".btn").unbind("click");
     $(".btn").bind("click", this.checkUserInput);
-    var startButton = $("#game-info").find("button");
-    startButton.addClass("blocked");
-    startButton.text("Playing...");
+    $("#game-info").find("button").addClass("blocked").text("Playing...");
+  }
+
+  this.updateRound = function() {
+    $("#counter").text(this.round);
   }
 
   this.generateSequence = function(quantity) {
@@ -27,8 +27,8 @@ function SimonGame() {
   }
 
   this.showSequence = function() {
-    var i = 0;
     $("#simon").addClass("blocked");
+    var i = 0;
     var interval = setInterval(function() {
       $(".btn").removeClass("active");
 
@@ -70,9 +70,7 @@ function SimonGame() {
       }
     }, 300);
 
-    var startButton = $("#game-info").find("button");
-    startButton.removeClass("blocked");
-    startButton.text("Game Over, Play again");
+    $("#game-info").find("button").removeClass("blocked").text("Game Over, Play again");
   }
 
   this.finishedRound = function() {
@@ -80,11 +78,7 @@ function SimonGame() {
     this.showSequence();
     this.userClickCount = 0;
     this.round++;
-    this.updateCounter();
-  }
-
-  this.updateCounter = function() {
-    $("#counter").text(this.round);
+    this.updateRound();
   }
 
   this.generateRandom = function() {
